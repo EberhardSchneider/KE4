@@ -33,30 +33,32 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.WritableImage;
 import javax.imageio.ImageIO;
 
 /**
- * This is an abstract GeneratorModel which all specialized
- * GeneratorModel (for example SimpleGeneratorModel) extend. It 
- * defines the things all subtypes of GeneratorModel have in common, for example
- * a canvas to draw on, a GeneratorState property, the ability to save an image
- * and a generate() method to actually generate the desired image onto the
- * canvas.
+ * This is an abstract GeneratorModel which all specialized GeneratorModel (for
+ * example SimpleGeneratorModel) extend. It defines the things all subtypes of
+ * GeneratorModel have in common, for example a canvas to draw on, a
+ * GeneratorState property, the ability to save an image and a generate() method
+ * to actually generate the desired image onto the canvas.
  *
  * @author Christoph Baumhardt
  */
 public abstract class GeneratorModel implements SaveImageCallable {
 
-    protected String generatorName; 
+    protected String generatorName;
     protected Canvas canvas; // to draw on
     protected Thread backgroundThread; // to execute generate()
-    
+
     // instead of a normal variable for GeneratorState use a property, as a
     // property can be easily monitored for changes
-    // tutorial on properties: 
+    // tutorial on properties:
     //https://docs.oracle.com/javase/8/javafx/properties-binding-tutorial/binding.htm
     private final ObjectProperty<GeneratorState> generatorState;
+
+    protected ScrollPane scrollPane;
 
     public GeneratorModel() {
         // name will be overwritten by specialized GeneratorModel
@@ -65,13 +67,12 @@ public abstract class GeneratorModel implements SaveImageCallable {
         generatorState = new SimpleObjectProperty<>(this, "generatorState",
                 GeneratorState.READY);
     }
-    
+
     abstract public String getGeneratorName();
-    
+
     /*public String getName() {
         return generatorName;
     }*/
-    
     /**
      * Returns the current canvas (can be null).
      *
@@ -80,14 +81,13 @@ public abstract class GeneratorModel implements SaveImageCallable {
     public Canvas getCanvas() {
         return canvas;
     }
-    
+
     /**
      * Each GeneratorModel has to have a generate() method that affects the
      * canvas.
      *
-     */    
+     */
     abstract void generate();
-    
 
     /**
      * Define and use a new Thread for the potentially time-consuming generate()
@@ -106,8 +106,8 @@ public abstract class GeneratorModel implements SaveImageCallable {
             }
         };
         backgroundThread = new Thread(task);
-        backgroundThread.start();  
-        
+        backgroundThread.start();
+
     }
 
     /**
@@ -116,17 +116,17 @@ public abstract class GeneratorModel implements SaveImageCallable {
      * @param filename The filename under which the canvas should be saved
      */
     @Override
-    public void saveImage(String filename){
+    public void saveImage(String filename) {
         WritableImage image = canvas.snapshot(new SnapshotParameters(), null);
         File file = new File(filename);
         try {
             WritableImage writableImage = canvas.snapshot(null, null);
-            RenderedImage renderedImage = 
-                    SwingFXUtils.fromFXImage(writableImage, null);
+            RenderedImage renderedImage
+                    = SwingFXUtils.fromFXImage(writableImage, null);
             ImageIO.write(renderedImage, "png", file);
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
-        }                 
+        }
     }
 
     /**
@@ -136,37 +136,42 @@ public abstract class GeneratorModel implements SaveImageCallable {
      */
     public final String getStateDescription() {
         return generatorState.get().getDescription();
-    } 
+    }
 
     /**
      * Stops the thread the generate() method uses for its computation.
      *
-     */    
-    public void stopBackgroundThread(){
-        if(backgroundThread != null && backgroundThread.isAlive()){
+     */
+    public void stopBackgroundThread() {
+        if (backgroundThread != null && backgroundThread.isAlive()) {
             backgroundThread.interrupt();
-            // toggles only a status bit, which still needs to be checked in 
+            // toggles only a status bit, which still needs to be checked in
             // generate(): if(Thread.currentThread().isInterrupted()){return;}
         }
     }
-    
+
     // declare the typical functions associated with properties
-    
     public final GeneratorState getGeneratorState() {
         return generatorState.get();
     }
-    
+
     public final void setGeneratorState(GeneratorState newGeneratorState) {
-        generatorState.set(newGeneratorState);    
+        generatorState.set(newGeneratorState);
     }
-    
+
     public final ObjectProperty<GeneratorState> generatorStateProperty() {
         return generatorState;
     }
 
     // easy setting of GeneratorState
-    
     public final void setGeneratorState(String description) {
         generatorState.set(new GeneratorState(description));
     }
+
+    // **************************************** changed by Eberhard Schneider
+    // I need the scrollPane shich is parent of canvas in the model
+    public void setCanvasParent(ScrollPane scrollPane) {
+        this.scrollPane = scrollPane;
+    }
+
 }

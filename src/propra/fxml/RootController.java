@@ -53,45 +53,43 @@ import javax.imageio.ImageIO;
  * @author Christoph Baumhardt
  */
 public class RootController implements SaveImageCallable {
-    
+
     @FXML
-    private MenuItem menuItemSaveImage;     
+    private MenuItem menuItemSaveImage;
     @FXML
     private ScrollPane scrollPane;
     @FXML
-    private Label statusLabel;   
-    
-    
+    private Label statusLabel;
+
     private Stage generatorStage;
     private GeneratorController generatorController;
     private Canvas canvas;
 
-    
     @FXML
     public void initialize() {
         statusLabel.textProperty().setValue("No generator selected.");
         menuItemSaveImage.setDisable(true); // cannot save if nothing generated
     }
-    
+
     @FXML
-    private void handleSaveImage(){
+    private void handleSaveImage() {
         saveImage("generated_image.png");
     }
-    
+
     /**
      * Creates a dialog to save an image as png.
-     * 
-     * @param fileName  The initial filename displayed in the save image dialog
+     *
+     * @param fileName The initial filename displayed in the save image dialog
      */
     @Override
-    public void saveImage(String fileName){
+    public void saveImage(String fileName) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Image");
         fileChooser.setInitialFileName(fileName);
         fileChooser.setInitialDirectory(
-            new File(System.getProperty("user.home"))
-        );  
-        FileChooser.ExtensionFilter extFilter 
+                new File(System.getProperty("user.home"))
+        );
+        FileChooser.ExtensionFilter extFilter
                 = new FileChooser.ExtensionFilter("png files (*.png)", "*.png");
         fileChooser.getExtensionFilters().add(extFilter);
 
@@ -100,35 +98,40 @@ public class RootController implements SaveImageCallable {
         if (file != null) {
             try {
                 WritableImage writableImage = canvas.snapshot(null, null);
-                RenderedImage renderedImage = 
-                        SwingFXUtils.fromFXImage(writableImage, null);
+                RenderedImage renderedImage
+                        = SwingFXUtils.fromFXImage(writableImage, null);
                 ImageIO.write(renderedImage, "png", file);
-                
+
                 statusLabel.textProperty().setValue("Saved!");
-                
+
             } catch (IOException ex) {
                 System.out.println(ex.getMessage());
-            }            
+            }
         } // else file save was cancelled by user
     }
-    
+
     @FXML
     private void showSimpleGeneratorView() {
         showSpecializedGeneratorView("Simple Generator",
                 "fxml/SimpleGeneratorView.fxml");
-    }    
-    
+    }
+
+    @FXML
+    private void showKE4GeneratorView() {
+        showSpecializedGeneratorView("KE4 Generator", "fxml/KE4View.fxml");
+    }
+
     /**
      * Displays a new view of a specialized Generator.
-     * 
-     * @param generatorName  The name associated with the generator
+     *
+     * @param generatorName The name associated with the generator
      * @param pathToFXMLFile The path to the fxml file of the wanted view
-     */    
+     */
     private void showSpecializedGeneratorView(String generatorName,
-            String pathToFXMLFile){
-        if (generatorController != null && 
-                generatorController.getModel().getGeneratorName().
-                        equals(generatorName)){
+            String pathToFXMLFile) {
+        if (generatorController != null
+                && generatorController.getModel().getGeneratorName().
+                equals(generatorName)) {
             // window for specialized Generator exists already -> no creation
             generatorStage.requestFocus();
         } else {
@@ -142,40 +145,44 @@ public class RootController implements SaveImageCallable {
                 FXMLLoader loader = new FXMLLoader();
                 loader.setLocation(MainApp.class.getResource(pathToFXMLFile));
                 Parent content = loader.load();
-                
+
                 // let the root view listen to the GeneratorState of the newly
-                // created model (to update statusbar and display generated 
+                // created model (to update statusbar and display generated
                 // image when it is finished)
                 generatorController = loader.getController();
-                generatorController.getModel().generatorStateProperty().
-                        addListener(new ChangeListener<GeneratorState>(){
-                    @Override
-                    public void changed(ObservableValue<? extends 
-                            GeneratorState> observable, GeneratorState oldValue,
-                            GeneratorState newValue) {
-                        // Make sure the following runs always inside JavaFX
-                        // Application Thread (even if started from another
-                        // Thread), as UI changes need to be done in there
-                        Platform.runLater(new Runnable() {
-                            @Override
-                            public void run() { 
-                                statusLabel.textProperty().setValue(
-                                        newValue.getDescription());
-                                
-                                if (newValue == 
-                                        GeneratorState.FINISHED_READY) {
-                                    canvas = generatorController.getModel().
-                                            getCanvas();
-                                    scrollPane.setContent(canvas);
-                                    menuItemSaveImage.setDisable(false);
-                                }                                
-                                
-                            }
-                        });                   
-                    }
 
-                });
-                
+                // ***************************** changed by Eberhard Schneider *******************
+                // the model needs the scrollpane which is parent to canvas
+                // so we give it to him here
+                generatorController.getModel().setCanvasParent(scrollPane);
+                generatorController.getModel().generatorStateProperty().
+                        addListener(new ChangeListener<GeneratorState>() {
+                            @Override
+                            public void changed(ObservableValue<? extends GeneratorState> observable, GeneratorState oldValue,
+                                    GeneratorState newValue) {
+                                // Make sure the following runs always inside JavaFX
+                                // Application Thread (even if started from another
+                                // Thread), as UI changes need to be done in there
+                                Platform.runLater(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        statusLabel.textProperty().setValue(
+                                                newValue.getDescription());
+
+                                        if (newValue
+                                                == GeneratorState.FINISHED_READY) {
+                                            canvas = generatorController.getModel().
+                                                    getCanvas();
+                                            scrollPane.setContent(canvas);
+                                            menuItemSaveImage.setDisable(false);
+                                        }
+
+                                    }
+                                });
+                            }
+
+                        });
+
                 statusLabel.textProperty().setValue(
                         generatorController.getModel().getStateDescription());
                 generatorStage = new Stage();
@@ -186,22 +193,20 @@ public class RootController implements SaveImageCallable {
                     generatorController = null;
                     statusLabel.textProperty().setValue(
                             "No generator selected.");
-                });                 
+                });
                 generatorStage.setScene(new Scene(content));
                 generatorStage.setResizable(false);
-                generatorStage.show();                
-                
-            }  catch (IOException e) {
+                generatorStage.show();
+
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
 
-
     @FXML
     private void handleExit() {
         Platform.exit(); // close all windows of application gracefully
     }
-    
-    
+
 }

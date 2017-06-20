@@ -3,7 +3,13 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/eberh_000/Desktop/KE4_Schneider_Eberhard/src/functioncanvas/FunctionTreeCanvas.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/model/GeneratorModel.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functioncanvas/Selection.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/fxml/RootController.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/fxml/KE4VController.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functioncanvas/SelectionCanvas.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/fxml/RootView.fxml</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/model/KE4Model.java</file>
         </group>
     </open-files>
 </project-private>

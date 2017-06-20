@@ -37,6 +37,7 @@
                      <accelerator>
                         <KeyCodeCombination alt="UP" code="DIGIT1" control="DOWN" meta="UP" shift="UP" shortcut="UP" />
                      </accelerator></MenuItem>
+                  <MenuItem mnemonicParsing="false" onAction="#showKE4GeneratorView" text="KE4 Generator" />
             </items>
                <accelerator>
                   <KeyCodeCombination alt="UP" code="G" control="ANY" meta="UP" shift="UP" shortcut="UP" />
