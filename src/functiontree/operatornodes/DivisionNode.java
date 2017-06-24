@@ -23,29 +23,33 @@
  */
 package functiontree.operatornodes;
 
-import functiontree.Node;
+import functiontree.FunctionNode;
 
 /**
  *
  * @author eberh_000
  */
-public class DivisionNode extends Node {
+public class DivisionNode extends FunctionNode {
 
     public DivisionNode() {
         super(2);
     }
 
     @Override
-    public double operate() {
-        // first check if divisor is zero
-        double child1Result = childs[1].operate();
-        if (child1Result != 0) {
-            double result = childs[0].operate() / childs[1].operate();
-            return result;
+    public double operate(double x, double y, int maxLevel ) {
+        
+        if (level < maxLevel) {
+            // first check if divisor is zero
+            double child1Result = child[1].operate( x, y, maxLevel);
+            return (child1Result != 0) ? 
+                    child[0].operate( x, y, maxLevel) / child1Result :
+                    0.5;
         } else {
-            System.err.println("Division By Zero in Node " + this);
-            return 0.0;
+            return (y != 0) ?
+                    x / y :
+                    0.5;
         }
     }
+  
 
 }

@@ -3,11 +3,30 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/model/GeneratorModel.java</file>
-            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functioncanvas/Selection.java</file>
-            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/fxml/RootController.java</file>
             <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/fxml/KE4VController.java</file>
-            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functioncanvas/SelectionCanvas.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/ExpNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functioncanvas/FunctionCanvas.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/MultiplicationNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/AdditionNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/OperatorNodeFactory.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/RandomFunctionTree.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/SquareNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/InvertNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/model/GeneratorModel.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/FunctionNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/ArccosNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/DivisionNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/fxml/RootController.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/ConstantNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/MeanNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/ArcsinNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/iTriFunction.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/CosinusNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/SinusNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/ConstantNodeFactory.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functioncanvas/Selection.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functiontree/operatornodes/SubstractionNode.java</file>
+            <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/functioncanvas/FunctionTreeCanvas.java</file>
             <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/fxml/RootView.fxml</file>
             <file>file:/C:/Users/eberh_000/Documents/NetBeansProjects/KE4/src/propra/model/KE4Model.java</file>
         </group>

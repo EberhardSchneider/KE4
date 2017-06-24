@@ -25,7 +25,17 @@ package propra.fxml;
 
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
 import propra.model.GeneratorModel;
 import propra.model.KE4Model;
 
@@ -37,13 +47,33 @@ import propra.model.KE4Model;
 public class KE4VController extends GeneratorController implements Initializable {
 
     KE4Model model;
+    
+    @FXML TextField tfRandomSeedRed;
+    @FXML TextField tfRandomSeedGreen;
+    @FXML TextField tfRandomSeedBlue;
+    
+    @FXML TextField tfTreeHeightRed;
+    @FXML TextField tfTreeHeightGreen;
+    @FXML TextField tfTreeHeightBlue;
+    
+    @FXML TextField tfCanvasWidth;
+    @FXML TextField tfCanvasHeight;
+    
+    @FXML Label labelFirstRow;
+    @FXML Label labelSecondRow;
+    @FXML Label labelThirdRow;
+    
+    @FXML RadioButton rbRGB;
+    @FXML RadioButton rbHSV;
+    @FXML ToggleGroup tgColorModel;
+    
 
     public KE4VController() {
         model = new KE4Model();
     }
 
     public void buttonGenerateClicked() {
-        model.generate();
+        model.generateInNewThread();
     }
 
     /**
@@ -51,12 +81,59 @@ public class KE4VController extends GeneratorController implements Initializable
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
+         
+        Bindings.bindBidirectional(tfRandomSeedRed.textProperty(), model.getRandomSeedRed(), new NumberStringConverter() );
+        Bindings.bindBidirectional(tfRandomSeedGreen.textProperty(), model.getRandomSeedGreen(), new NumberStringConverter() );
+        Bindings.bindBidirectional(tfRandomSeedBlue.textProperty(), model.getRandomSeedBlue(), new NumberStringConverter() );
+        
+        Bindings.bindBidirectional(tfTreeHeightRed.textProperty(), model.getTreeHeightRed(), new NumberStringConverter() );
+        Bindings.bindBidirectional(tfTreeHeightGreen.textProperty(), model.getTreeHeightGreen(), new NumberStringConverter() );
+        Bindings.bindBidirectional(tfTreeHeightBlue.textProperty(), model.getTreeHeightBlue(), new NumberStringConverter() );
+        
+        
+        Bindings.bindBidirectional(tfCanvasWidth.textProperty(), model.getWidth(), new NumberStringConverter() );
+        Bindings.bindBidirectional(tfCanvasHeight.textProperty(), model.getHeight(), new NumberStringConverter() );
+        
+        tgColorModel.getProperties().addListener( new ChangeListener() {
+            @Override
+            public void changed(ObservableValue observable, Object oldValue, Object newValue) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        } );
+        
+        
     }
 
     @Override
     GeneratorModel getModel() {
         return model;
+    }
+    
+    @FXML
+    public void rollRedDice() {
+        tfRandomSeedRed.setText( randomLongAsString() );
+    }
+    
+    @FXML
+    public void rollGreenDice() {
+        tfRandomSeedGreen.setText( randomLongAsString() );
+    }
+    
+    @FXML
+    public void rollBlueDice() {
+        tfRandomSeedBlue.setText( randomLongAsString() );
+    }
+    
+    @FXML
+    public void rollAllDice() {
+        rollRedDice();
+        rollGreenDice();
+        rollBlueDice();
+    }
+    
+    private String randomLongAsString() {
+        long r = (long)(Math.random() * Long.MAX_VALUE);
+        return String.valueOf( r );
     }
 
 }

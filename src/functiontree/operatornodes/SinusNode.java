@@ -23,21 +23,25 @@
  */
 package functiontree.operatornodes;
 
-import functiontree.Node;
+import functiontree.FunctionNode;
 
 /**
  *
  * @author eberh_000
  */
-public class SinusNode extends Node {
+public class SinusNode extends FunctionNode {
 
     public SinusNode() {
         super(1);
     }
 
     @Override
-    public double operate() {
-        return Math.sin(childs[0].operate());
+    public double operate(double x, double y, int maxLevel ) {
+        if (level < maxLevel) {
+            return Math.sin(child[0].operate( x, y, maxLevel ) * 2 * 3.14159265359);
+        } else {
+            return Math.sin( x );
+        }
     }
-
+    
 }

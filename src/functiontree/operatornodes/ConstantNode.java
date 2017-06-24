@@ -23,13 +23,13 @@
  */
 package functiontree.operatornodes;
 
-import functiontree.Node;
+import functiontree.FunctionNode;
 
 /**
  *
  * @author eberh_000
  */
-public class ConstantNode extends Node {
+public class ConstantNode extends FunctionNode {
 
     private double value;
 
@@ -43,8 +43,9 @@ public class ConstantNode extends Node {
     }
 
     @Override
-    public double operate() {
+    public double operate(double x, double y, int maxLevel ) {
         return value;
     }
+
 
 }

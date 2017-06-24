@@ -21,33 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  */
-package functiontree;
+package functiontree.operatornodes;
+
+import functiontree.FunctionNode;
 
 /**
- * Implements the Node of a function tree, which represents either a function
- * with as many child Nodes as arguments, or a constant.
  *
  * @author eberh_000
  */
-public abstract class Node {
+public class SquareNode extends FunctionNode {
 
-    final int numberOfChilds;
-    protected Node[] childs;
-
-    public Node(int numberOfChilds) {
-        this.numberOfChilds = numberOfChilds;
-        childs = new Node[numberOfChilds];
+    public SquareNode() {
+        super(1);
     }
 
-    public abstract double operate();
-
-    public void setChildNode(int index, Node childNode) {
-        if (index < 0 || index > numberOfChilds - 1) {
-            throw new RuntimeException("Node " + this
-                    + "cannot have more than " + numberOfChilds + " child nodes.");
+    @Override
+    public double operate(double x, double y, int maxLevel ) {
+        if (level < maxLevel) {
+            double childResult = child[0].operate( x, y, maxLevel);
+            return ( childResult * childResult ) % 1;
+        } else {
+            return ( x * x ) % 1;
         }
-
-        childs[index] = childNode;
     }
 
 }

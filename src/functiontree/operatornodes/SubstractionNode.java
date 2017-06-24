@@ -23,22 +23,27 @@
  */
 package functiontree.operatornodes;
 
-import functiontree.Node;
+import functiontree.FunctionNode;
 
 /**
  *
  * @author eberh_000
  */
-public class SubstractionNode extends Node {
+public class SubstractionNode extends FunctionNode {
 
     public SubstractionNode() {
         super(2);
     }
 
     @Override
-    public double operate() {
-        double result = childs[0].operate() - childs[1].operate();
-        return result;
+    public double operate(double x, double y, int maxLevel ) {
+        if (level < maxLevel) {
+            double result = (child[0].operate( x, y, maxLevel ) - child[1].operate( x, y, maxLevel)) % 1;
+            return result;
+        } else {
+            return (x - y) % 1;
+        }
     }
+
 
 }

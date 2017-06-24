@@ -23,21 +23,26 @@
  */
 package functiontree.operatornodes;
 
-import functiontree.Node;
+import functiontree.FunctionNode;
 
 /**
  *
  * @author eberh_000
  */
-public class AdditionNode extends Node {
+public class AdditionNode extends FunctionNode {
 
     public AdditionNode() {
         super(2);
     }
 
     @Override
-    public double operate() {
-        double sum = childs[0].operate() + childs[1].operate();
-        return sum;
+    public double operate( double x, double y, int maxLevel ) {
+        if (level < maxLevel) {
+            double sum = child[0].operate( x, y, maxLevel ) + child[1].operate( x, y, maxLevel );
+            return sum % 1;
+        } else {
+            return (x + y) % 1;
+        }
     }
+
 }

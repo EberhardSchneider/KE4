@@ -24,12 +24,14 @@
 package propra.model;
 
 import functioncanvas.FunctionCanvas;
+import functioncanvas.FunctionTreeCanvas;
 import functioncanvas.MandelbrotCanvas;
 import functioncanvas.Selection;
 import functiontree.ConstantNodeFactory;
-import functiontree.Node;
+import functiontree.FunctionNode;
 import functiontree.OperatorNodeFactory;
 import functiontree.operatornodes.ConstantNode;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.canvas.Canvas;
@@ -42,6 +44,56 @@ import javafx.scene.paint.Color;
  * @author eberh_000
  */
 public class KE4Model extends GeneratorModel {
+    
+    SimpleIntegerProperty width = new SimpleIntegerProperty( 500 );
+    SimpleIntegerProperty height = new SimpleIntegerProperty( 500 );
+    
+    SimpleIntegerProperty randomSeedRed = new SimpleIntegerProperty( 0 );
+    SimpleIntegerProperty randomSeedGreen = new SimpleIntegerProperty( 0 );
+    SimpleIntegerProperty randomSeedBlue = new SimpleIntegerProperty( 0 );
+    SimpleIntegerProperty treeHeightRed = new SimpleIntegerProperty( 10 );
+    SimpleIntegerProperty treeHeightGreen = new SimpleIntegerProperty( 10 );
+    SimpleIntegerProperty treeHeightBlue = new SimpleIntegerProperty( 10 );
+
+    
+    
+    public SimpleIntegerProperty getWidth() {
+        return width;
+    }
+
+    public SimpleIntegerProperty getHeight() {
+        return height;
+    }
+
+    public SimpleIntegerProperty getRandomSeedRed() {
+        return randomSeedRed;
+    }
+
+    public SimpleIntegerProperty getRandomSeedGreen() {
+        return randomSeedGreen;
+    }
+
+    public SimpleIntegerProperty getRandomSeedBlue() {
+        return randomSeedBlue;
+    }
+
+    public SimpleIntegerProperty getTreeHeightRed() {
+        return treeHeightRed;
+    }
+
+    public SimpleIntegerProperty getTreeHeightGreen() {
+        return treeHeightGreen;
+    }
+
+    public SimpleIntegerProperty getTreeHeightBlue() {
+        return treeHeightBlue;
+    }
+    
+    
+
+
+
+    
 
     @Override
     public String getGeneratorName() {
@@ -50,33 +102,23 @@ public class KE4Model extends GeneratorModel {
 
     @Override
     public void generate() {
+      
 
-        Node root = OperatorNodeFactory
-                .getNode(OperatorNodeFactory.Operator.DIV);
-        Node constant1 = ConstantNodeFactory.getNode(2.0);
-        Node constant2 = ConstantNodeFactory.getNode(3.0);
+        canvas = new FunctionTreeCanvas( width.get(), height.get(), 
+                        randomSeedRed.get(),
+                        randomSeedGreen.get(),
+                        randomSeedBlue.get(),
+                        treeHeightRed.get(),
+                        treeHeightGreen.get(),
+                        treeHeightBlue.get()
+                        );
 
-        root.setChildNode(0, constant1);
-        root.setChildNode(1, constant2);
+        setGeneratorState("Calculating...");
+        
+        ( (FunctionTreeCanvas)canvas ).drawOnCanvas();
+        
+        setGeneratorState( GeneratorState.FINISHED_READY );
 
-        System.out.println(root.operate());
-
-        canvas = new MandelbrotCanvas(500, 500, -2.5, -1.0, 1.0, 1.0);
-
-        AnchorPane wrapper = getFittingAnchorPane(canvas);
-
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFill(Color.BLACK);
-        gc.fillRect(0, 0, 500, 500);
-
-        ((FunctionCanvas) canvas).init();
-//        ((FunctionFunctionCanvas).addSelectionListener((o, oldValue, newValue) -> {
-//            ((FunctionTreeFunctionCanvastNumberSpace((Selection) newValue);
-//        });
-
-        wrapper.getChildren().addAll(canvas);
-        ((FunctionCanvas) canvas).drawOnCanvas();
-        scrollPane.setContent(wrapper);
     }
 
     private AnchorPane getFittingAnchorPane(Canvas canvas) {

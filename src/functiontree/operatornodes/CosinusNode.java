@@ -23,21 +23,26 @@
  */
 package functiontree.operatornodes;
 
-import functiontree.Node;
+import functiontree.FunctionNode;
 
 /**
  *
  * @author eberh_000
  */
-public class CosinusNode extends Node {
+public class CosinusNode extends FunctionNode {
 
     public CosinusNode() {
         super(1);
     }
 
     @Override
-    public double operate() {
-        return Math.cos(childs[0].operate());
+    public double operate(double x, double y, int maxLevel ) {
+        if (level < maxLevel) {
+            return Math.cos(child[0].operate( x, y, maxLevel ) * 2 * 3.14159265359);
+        } else {
+            return Math.cos( x );
+        }
     }
+  
 
 }

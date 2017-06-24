@@ -31,7 +31,7 @@ import functiontree.operatornodes.ConstantNode;
  */
 public class ConstantNodeFactory {
 
-    public static Node getNode(double value) {
+    public static FunctionNode getNode(double value) {
         return new ConstantNode(value);
     }
 

@@ -24,6 +24,7 @@
 package functiontree;
 
 import functiontree.operatornodes.*;
+import java.util.Random;
 
 /**
  * This factory method makes nodes for the function tree.
@@ -33,30 +34,64 @@ import functiontree.operatornodes.*;
 public class OperatorNodeFactory {
 
     public enum Operator {
-        ADD, SUB, MUL, DIV, SIN, COS, SQRT, CONST
+        ADD, 
+//        SUB, MUL, DIV, 
+        SIN, COS,
+//        SQR, EXP, 
+//        ARCCOS, ARCSIN,
+        MEAN
     }
-
-    public static Node getNode(Operator o) {
+    public static FunctionNode getNode(Operator o) {
 
         switch (o) {
             case ADD:
                 return new AdditionNode();
-            case SUB:
-                return new SubstractionNode();
-            case MUL:
-                return new MultiplicationNode();
-            case DIV:
-                return new DivisionNode();
+//            case SUB:
+//                return new SubstractionNode();
+//            case MUL:
+//                return new MultiplicationNode();
+//            case DIV:
+//                return new DivisionNode();
             case SIN:
                 return new SinusNode();
             case COS:
                 return new CosinusNode();
-            case SQRT:
-                return new SquareRootNode();
-            case CONST:
-                return new ConstantNode(0);
+//            case SQR:
+//                return new SquareNode();
+//            case EXP:
+//                return new ExpNode();
+//            case ARCCOS:
+//                return new ArccosNode();
+//            case ARCSIN:
+//                return new ArcsinNode();
+            case MEAN:
+                return new MeanNode();
+                
             default:
                 throw new RuntimeException("NodeFactory: Node not known.");
         }
     }
+    
+   public FunctionNode getNodeById(int id) {
+       Operator[] values = Operator.values();
+       
+       if ( id < 0 || id > values.length ) {
+           throw new IllegalStateException("OperatorNodeFactory: cannot get "
+                        + "Node with id " + id + ".");
+       }
+       
+       return getNode( values[ id ]);
+   }
+   
+   public static FunctionNode getRandomNode( Random random ) {
+       // get random id for enum Operator
+       int id = random.nextInt( Operator.values().length );
+       FunctionNode node = getNode( Operator.values()[ id ]);
+       return node;
+   }
+   
+   public int getFunctionCount() {
+       return Operator.values().length;
+   }
+  
 }

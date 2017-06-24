@@ -71,7 +71,7 @@ public abstract class FunctionCanvas extends Canvas {
             double minX, double minY,
             double maxX, double maxY) {
 
-        super(1000, 800);
+        super(width, height);
 
         if (maxX - minX < 0.0001f) {
             throw new RuntimeException("minX must be sufficently smaller then maxX");
@@ -84,27 +84,25 @@ public abstract class FunctionCanvas extends Canvas {
 
         deltaX = (maxX - minX) / this.getWidth();
         deltaY = (maxY - minY) / this.getHeight();
-
-        this.setWidth(width);
-        this.setHeight(height);
-
-        selection.set(new Selection(0, 0, 0, 0));
-
-        // set the selectionCanvas
-        // first get the parent scrollpane
-        ScrollPane parent = new ScrollPane(this);
-        System.out.println(parent);
-        AnchorPane wrapper = new AnchorPane();
-
-        selectionCanvas = new Canvas(this.getWidth(), this.getHeight());
-        gc = selectionCanvas.getGraphicsContext2D();
-        gc.setFill(javafx.scene.paint.Color.RED);
-        gc.fillRect(50, 50, 100, 100);
-        wrapper.getChildren().addAll(selectionCanvas);
-
-        parent.setContent(wrapper);
-
-        addSelectionListener();
+//
+//
+//        selection.set(new Selection(0, 0, 0, 0));
+//
+//        // set the selectionCanvas
+//        // first get the parent scrollpane
+//        ScrollPane parent = new ScrollPane(this);
+//        System.out.println(parent);
+//        AnchorPane wrapper = new AnchorPane();
+//
+//        selectionCanvas = new Canvas(this.getWidth(), this.getHeight());
+//        gc = selectionCanvas.getGraphicsContext2D();
+//        gc.setFill(javafx.scene.paint.Color.RED);
+//        gc.fillRect(50, 50, 100, 100);
+//        wrapper.getChildren().addAll(selectionCanvas);
+//
+//        parent.setContent(wrapper);
+//
+//        addSelectionListener();
 
     }
 
@@ -118,10 +116,7 @@ public abstract class FunctionCanvas extends Canvas {
 
         BufferedImage image = new BufferedImage((int) this.getWidth(), (int) this.getHeight(), BufferedImage.TYPE_4BYTE_ABGR);
 
-        // coordinates in number space
-        double x = numberSpace.getX1();
-        double y = numberSpace.getY1();
-
+    
         for (int pixelY = 0; pixelY < this.getHeight(); pixelY++) {
             for (int pixelX = 0; pixelX < this.getWidth(); pixelX++) {
 
@@ -134,14 +129,10 @@ public abstract class FunctionCanvas extends Canvas {
                 int rgb = color.getRGB();
 
                 image.setRGB(pixelX, pixelY, rgb);
-                x += deltaX;
             }
 
-            x = numberSpace.getX1();
-            y += deltaY;
         }
 
-        System.out.println("After drawing: x = " + x + ", y = " + y);
 
         // now draw buffered image on canvas
         WritableImage fxImage = new WritableImage(image.getWidth(),
